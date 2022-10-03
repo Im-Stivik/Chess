@@ -7,7 +7,7 @@ namespace Chess
     {
         Test()
         {
-            this.BackgroundImage = Image.FromFile("C:\\Users\\Public\\Pictures\\Sample Pictures\\Desert.jpg");
+           
         }
     }
 }

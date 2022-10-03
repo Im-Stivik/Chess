@@ -60,7 +60,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="Test.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -72,6 +74,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -85,6 +88,48 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KingBlack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\Black\King.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\Black\Qween.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\Black\Knight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\Black\Pawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\Black\Rook.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\Black\Bishop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\White\Rook.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\White\Bishop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\White\King.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\White\Knight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\White\Pawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Picces\White\Queen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
