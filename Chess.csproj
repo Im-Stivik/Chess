@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
+    <Compile Include="Cell.cs" />
     <Compile Include="ChessBoardForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,11 +60,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GamePicces.cs" />
+    <Compile Include="GameSession.cs" />
+    <Compile Include="GameSettings.cs" />
+    <Compile Include="OptionCell.cs" />
+    <Compile Include="Pies.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
