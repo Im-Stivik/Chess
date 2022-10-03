@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,11 +27,17 @@ namespace Chess
         public void PutUIElementsInPlace()
         {
             //Set the buttons to the right place
-            LocalGameBtn.Location = new Point(this.Size.Width / 2 - LocalGameBtn.Size.Width / 2, this.Size.Height / 6);
-            LocalNetworkBtn.Location = new Point(this.Size.Width / 2 - LocalNetworkBtn.Size.Width / 2, this.Size.Height / 6 * 2);
-            OnlineBtn.Location = new Point(this.Size.Width / 2 - OnlineBtn.Size.Width / 2, this.Size.Height / 6 * 3);
+            LocalGameBtn.Location = new Point(this.Size.Width / 2 - LocalGameBtn.Size.Width / 2, this.Size.Height / 5);
+            LocalNetworkBtn.Location = new Point(this.Size.Width / 2 - LocalNetworkBtn.Size.Width / 2, this.Size.Height / 5 * 2);
+            OnlineBtn.Location = new Point(this.Size.Width / 2 - OnlineBtn.Size.Width / 2, this.Size.Height / 5 * 3);
         }
-
+        
+        //on resize
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            PutUIElementsInPlace();
+        }
     }
 
 
