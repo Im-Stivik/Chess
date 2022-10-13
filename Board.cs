@@ -11,18 +11,7 @@ namespace Chess
         public static Cell[,] cells = new Cell[8, 8];
         public static Form context;
         public static Pies selectedCell;
-
-        private static GamePicces.King whiteKing;
-        private static GamePicces.King blackKing;
         
-        public static GamePicces.King GetKing(ProjectEnums.Team team)
-        {
-            if (team == ProjectEnums.Team.WhiteTeam)
-            {
-                return whiteKing;
-            }
-            return blackKing;
-            }
 
         public static void Init(Form context)
         {
@@ -83,15 +72,6 @@ namespace Chess
             cells[remove.GetPoint().GetX(), remove.GetPoint().GetY()] = add;
             context.Controls.Remove(remove);
             context.Controls.Add(add);
-            //if the cell is King update its position
-            if (add.GetType() == ProjectEnums.PieceType.King)
-            {
-                GamePicces.King king = (GamePicces.King)add;
-                if (king.GetTeam() == ProjectEnums.Team.WhiteTeam)
-                    whiteKing = king;
-                else
-                    blackKing = king;
-            }
         }
 
         public static void Replace(int x, int y, Cell add)
@@ -99,14 +79,6 @@ namespace Chess
             context.Controls.Remove(cells[x, y]);
             cells[x, y] = add;
             context.Controls.Add(add);
-            if (add.GetType() == ProjectEnums.PieceType.King)
-            {
-                GamePicces.King king = (GamePicces.King)add;
-                if (king.GetTeam() == ProjectEnums.Team.WhiteTeam)
-                    whiteKing = king;
-                else
-                    blackKing = king;
-            }
         }
 
         public static void ClearOptions()
@@ -168,6 +140,19 @@ namespace Chess
             }
         }
 
+        public static void UpdateMovesForTeam(ProjectEnums.Team team)
+        {
+            foreach (Cell c in cells)
+            {
+                if (c.GetType() != ProjectEnums.PieceType.None)
+                {
+                    Pies p = (Pies)c;
+                    if (p.GetTeam() == team)
+                        p.CreateOptions();
+                }
+            }
+        }
+        
         public static void UpdateMoves(int x, int y)
         {
             if (isInBoard(x, y))
@@ -179,11 +164,97 @@ namespace Chess
                 }
             }
         }
-
-        public static bool CheckForCheckMate()
+        public static void UpdateMoves(Point p)
         {
-            //todo: implement
+            UpdateMoves(p.GetX(), p.GetY());
+        }
+        
+        public static void UpdateMoves(Pies p)
+        {
+            UpdateMoves(p.GetPoint());
+        }
+
+        public static bool CheckForCheck(ProjectEnums.Team team)
+        {
+            for (int i = 0; i < GameSettings.BoardSize; i++)
+            {
+                for(int j = 0; j < GameSettings.BoardSize; j++)
+                {
+                    if (cells[i, j].GetType() != ProjectEnums.PieceType.None)
+                    {
+                        Pies pies = (Pies)cells[i, j];
+                        if (pies.GetTeam() != team)
+                        {
+                            if (pies.IsMakingCheck())
+                            {
+
+                                return true;
+                            }
+                            
+                        }
+                    }
+                }
+            }
+
             return false;
+        }
+
+        public static bool WillMoveCauseCheck(MoveOption move)
+        {
+            ICommand command = new BackGroundMoveCommand(move);
+            
+            
+            command.Execute();
+
+            UpdateMovesForTeam(ProjectEnums.GetOppositeTeam(move.GetOwner().GetTeam()));
+
+            bool check = CheckForCheck(move.GetOwner().GetTeam());
+            command.Cancle();
+
+            return check;
+        }
+
+        public static void FilterMovesForTeam(ProjectEnums.Team team)
+        {
+            for(int i = 0; i < GameSettings.BoardSize; i++)
+            {
+                for(int j = 0; j < GameSettings.BoardSize; j++)
+                {
+                    if (cells[i, j].GetType() != ProjectEnums.PieceType.None)
+                    {
+                        Pies p = (Pies)cells[i, j];
+                        if (p.GetTeam() == team)
+                        {
+                            p.RemoveOptionThatWillMakeCheck();
+                        }
+                    }
+                }
+            }
+        }
+        
+        public static bool CheckForCheckMate(ProjectEnums.Team team)
+        {
+            Console.WriteLine("Checking for check mate!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            for(int i = 0; i < GameSettings.BoardSize; i++)
+            {
+                for(int j = 0; j < GameSettings.BoardSize; j++)
+                {
+                    if (cells[i, j].GetType() != ProjectEnums.PieceType.None)
+                    {
+                        Pies p = (Pies)cells[i, j];
+                        if (p.GetTeam() == team)
+                        {
+                            if (p.GetMoveOptions().Length > 0)
+                            {
+                                return false;
+                            }
+
+                            Console.WriteLine(p + "Have " + p.GetMoveOptions() + " options");
+                        }
+                    }
+                }
+            }
+            return true;
         }
     }
 }

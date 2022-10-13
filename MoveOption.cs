@@ -7,6 +7,7 @@ namespace Chess
         private Pies owner;
         private Cell target;
         private bool isOnPies;
+        private bool isMakingCheck = false;
         
         //constructor
         public MoveOption(Pies owner, ref Cell target, bool isOnPies)
@@ -14,6 +15,7 @@ namespace Chess
             this.owner = owner;
             this.target = target;
             this.isOnPies = isOnPies;
+            CheckForCheck();
         }
         
         //constructor with owner, point and is on pies
@@ -22,6 +24,7 @@ namespace Chess
             this.owner = owner;
             this.target = Board.cells[target.GetX(), target.GetY()];
             this.isOnPies = isOnPies;
+            CheckForCheck();
         }
 
         //constructor with owner, x, y and is on pies
@@ -30,6 +33,7 @@ namespace Chess
             this.owner = owner;
             this.target = Board.cells[x, y];
             this.isOnPies = isOnPies;
+            CheckForCheck();
         }
 
         //constructor with owner, x, y, and check if is on pies
@@ -38,6 +42,7 @@ namespace Chess
             this.owner = owner;
             this.target = Board.cells[x, y];
             this.isOnPies = target.GetType() != ProjectEnums.PieceType.None;
+            CheckForCheck();
         }
         
         //getters and setters
@@ -63,6 +68,19 @@ namespace Chess
         public override string ToString()
         {
             return owner.GetPoint() + " to " + target;
+        }
+        
+        private void CheckForCheck()
+        {
+            if (isOnPies)
+            {
+                isMakingCheck = target.GetType() == ProjectEnums.PieceType.King;
+            }
+        }
+        
+        public bool IsMakingCheck()
+        {
+            return isMakingCheck;
         }
     }
 }

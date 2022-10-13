@@ -37,6 +37,15 @@ namespace Chess
             this.toY = toY;
             this.movedPies = pies;
         }
+        
+        public MoveCommand(Point to, Pies pies)
+        {
+            this.fromX = pies.GetPoint().GetX();
+            this.fromY = pies.GetPoint().GetY();
+            this.toX = to.GetX();
+            this.toY = to.GetY();
+            this.movedPies = pies;
+        }
 
         public void Execute()
         {
@@ -78,6 +87,43 @@ namespace Chess
         {
             this.move.Cancle();
             Board.Replace(eaten.GetPoint().GetX(),eaten.GetPoint().GetY(),eaten);
+        }
+    }
+
+    public class BackGroundMoveCommand : ICommand
+    {
+        private Cell owner;
+        private Cell target;
+        private Point ownerPoint;
+        private Point targetPoint;
+        
+        public BackGroundMoveCommand(Cell owner, Cell target)
+        {
+            this.owner = owner;
+            this.target = target;
+        }
+
+        public BackGroundMoveCommand(MoveOption move)
+        {
+            this.owner = move.GetOwner();
+            this.target = move.GetTarget();
+            this.ownerPoint = move.GetOwner().GetPoint();
+            this.targetPoint = move.GetTarget().GetPoint();
+        }
+        
+        public void Execute()
+        {
+            Board.cells[target.GetPoint().GetX(), target.GetPoint().GetY()] = owner;
+            Board.cells[owner.GetPoint().GetX(), owner.GetPoint().GetY()] = new Cell(target.GetPoint().GetX(), target.GetPoint().GetY());
+            owner.SetPoint(targetPoint);
+        }
+        
+        public void Cancle()
+        {
+            target.SetPoint(targetPoint);
+            owner.SetPoint(ownerPoint);
+            Board.cells[owner.GetPoint().GetX(), owner.GetPoint().GetY()] = owner;
+            Board.cells[target.GetPoint().GetX(), target.GetPoint().GetY()] = target;
         }
     }
 

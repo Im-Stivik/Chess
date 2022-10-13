@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Management.Instrumentation;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 
@@ -37,19 +38,22 @@ namespace Chess
         public static void ChangeTurn()
         {
             currentTurn = currentTurn == ProjectEnums.Team.WhiteTeam ? ProjectEnums.Team.BlackTeam : ProjectEnums.Team.WhiteTeam;
+            if (Board.CheckForCheck(currentTurn))
+            {
+                Console.WriteLine("Check!");
+                if (!Board.CheckForCheckMate(currentTurn)) //TODO: check why its not working as intended
+                {
+                    Mate();
+                    return;
+                }
+            }
+            Board.FilterMovesForTeam(currentTurn);
         }
 
-        public static void MakeChess(ProjectEnums.Team team)
+        public static void Mate()
         {
-            Console.WriteLine("Chess made by " + currentTurn);
-            if (Board.CheckForCheckMate())
-            {
-                Console.WriteLine("Checkmate!");
-            }
-            else
-            {
-                Console.WriteLine("Not checkmate!");
-            }
+            //TODO: implement mate
+            Console.WriteLine("Mate!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Chess
 
         //getters and setters
         public ProjectEnums.Team GetTeam(){return team;}
-        public ref MoveOption[] GetMoveOptions(){return ref moveOptions;}
+        public MoveOption[] GetMoveOptions(){return moveOptions;}
     
         //constructor    
         public Pies(int x, int y,ProjectEnums.Team team) : base(x, y)
@@ -34,7 +34,7 @@ namespace Chess
             this.BackColor = Cell.GetBackColor(this.point);
             if (this.GetType() == ProjectEnums.PieceType.Pawn && y == 0)
             {
-                //TODO: transformation
+                //TODO: make animation
             }
 
             IsMoved = true;
@@ -94,6 +94,39 @@ namespace Chess
         {
             base.MakeSelectedByMove(owner);
             this.BackColor = GameSettings.EatPiesOptionColor;
+        }
+        
+        public bool IsMakingCheck()
+        {
+            for (int i = 0; i < moveOptions.Length; i++)
+            {
+                if (moveOptions[i].IsMakingCheck())
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        public void RemoveOptionThatWillMakeCheck()
+        {
+            Console.WriteLine("Removing options that will make check...");
+            List<MoveOption> options = new List<MoveOption>();
+            for(int i = 0; i < moveOptions.Length; i++)
+            {
+                if (Board.WillMoveCauseCheck(moveOptions[i]))
+                {
+                    Console.WriteLine("Removing option that will make check: " + moveOptions[i].ToString());
+                }
+                else
+                {
+                    options.Add(moveOptions[i]);
+                }
+            }
+
+            Console.WriteLine("Done!");
+            moveOptions = options.ToArray();
         }
     }
 }
