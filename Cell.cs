@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -5,43 +6,95 @@ namespace Chess
 {
     public class Cell : Label
     {
-        private int x;
-        private int y;
-        private ProjectEnums.PieceType pieceType;
+        protected Point point;
+        protected ProjectEnums.PieceType pieceType;
+        protected ProjectEnums.SelectionState selectionState = ProjectEnums.SelectionState.NotSelected;
+        private Pies owner = null;
+        
+        
+        //getters and setters
+        public Point GetPoint(){return this.point;}
+        public void SetPoint(Point point){this.point = new Point(point);}
+        public ProjectEnums.PieceType GetType(){return this.pieceType;}
+        
+        //constructor
         public Cell(int x, int y)
         {
-            this.x = x;
-            this.y = y;
-            this.Width = 50;
-            this.Height = 50;
-            this.Location = new System.Drawing.Point(x * 50 + GameSettings.BoardMarginLeft, y * 50 + GameSettings.BoardMarginTop);
-            if ((x + y) % 2 == 0)
-            {
-                this.BackColor = GameSettings.LightColor;
-            }
-            else
-            {
-                this.BackColor = GameSettings.DarkColor;
-            }
-            
+            this.point = new Point(x, y);
+            this.Width = GameSettings.PieceSize;
+            this.Height = GameSettings.PieceSize;
+            this.Location = point.GetLocation();
+            this.BackColor = GetBackColor(this.point);
             this.pieceType = ProjectEnums.PieceType.None;
 
         }
         
-        public int X
+        //constructor with point
+        public Cell(Point point)
         {
-            get { return x; }
-            set { x = value; }
+            this.point = new Point(point);
+            this.Width = GameSettings.PieceSize;
+            this.Height = GameSettings.PieceSize;
+            this.Location = point.GetLocation();
+            this.BackColor = GetBackColor(this.point);
+            this.pieceType = ProjectEnums.PieceType.None;
         }
-        public int Y
+
+        //copy constructor
+        public Cell(Cell cell)
         {
-            get { return y; }
-            set { y = value; }
+            this.point = new Point(cell.point);
+            this.Width = GameSettings.PieceSize;
+            this.Height = GameSettings.PieceSize;
+            this.Location = this.point.GetLocation();
         }
-        public ProjectEnums.PieceType PieceType
+        
+        //returns the needed back color
+        public static System.Drawing.Color GetBackColor(Point point)
         {
-            get { return pieceType; }
-            set { pieceType = value; }
+            if ((point.GetX() + point.GetY()) % 2 == 0)
+            {
+               return GameSettings.LightColor;
+            }
+            else
+            {
+                return GameSettings.DarkColor;
+            }
+        }
+
+        public virtual void MakeSelectedByMove(Pies owner)
+        {
+            this.owner = owner;
+            this.BackColor = GameSettings.OptionsColor;
+            this.selectionState = ProjectEnums.SelectionState.SelectedByMove;
+            this.Click += new EventHandler(ClickedSelected);
+        }
+        
+        public void MakeUnselected()
+        {
+            this.selectionState = ProjectEnums.SelectionState.NotSelected;
+            this.BackColor = Cell.GetBackColor((this.GetPoint()));
+            this.owner = null;
+            this.Click -= new EventHandler(ClickedSelected);
+        }
+        
+        public override string ToString()
+        {
+            return pieceType +" " + this.point.ToString();
+        }
+
+        public virtual void ClickedSelected(object sender, EventArgs e)
+        {
+            if (!canPlayerMove()) return;
+            if (this.selectionState != ProjectEnums.SelectionState.SelectedByMove) return;
+            ICommand command = new MoveCommand(this.GetPoint().GetX(),this.GetPoint().GetY(),this.owner);
+            GameSession.ExecuteCommand(command);
+        }
+        
+        protected bool canPlayerMove(){
+            if(GameSession.gameType == ProjectEnums.GameType.Local)
+                return GameSession.currentTurn == this.owner.GetTeam();
+            return GameSession.IsPlayerTurn();
         }
     }
 }

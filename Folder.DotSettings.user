@@ -1,4 +1,13 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/run/host/usr/lib/mono/msbuild/15.0/bin/MSBuild.dll</s:String>
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/DotNetCliExePath/@EntryValue">/var/run/host/bin/dotnet</s:String>
+	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">983040</s:Int64>
+	<s:Boolean x:Key="/Default/Environment/Hierarchy/Build/BuildTool/RecentDotNetCliExePaths/=_002Fvar_002Frun_002Fhost_002Fbin_002Fdotnet/@EntryIndexedValue">True</s:Boolean>
+	
+	
+	
+	
+	<s:Boolean x:Key="/Default/Environment/Hierarchy/Build/BuildTool/RecentMonoExePaths/=_002Frun_002Fhost_002Fusr_002Flib64_002Fmono_002Flldb_002Fmono_002Epy/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Chess_002FForm1/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Chess_002FProperties_002FResources/@EntryIndexedValue">True</s:Boolean>
 	

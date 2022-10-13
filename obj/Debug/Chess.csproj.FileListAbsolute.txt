@@ -19,3 +19,13 @@ C:/Users/Stivik/source/repos/Chess/Chess/obj/Debug/Chess.pdb
 /home/stivik/Projects/Visual Programing/Chess/obj/Debug/Chess.csproj.CoreCompileInputs.cache
 /home/stivik/Projects/Visual Programing/Chess/obj/Debug/Chess.exe
 /home/stivik/Projects/Visual Programing/Chess/obj/Debug/Chess.pdb
+/home/stivik-Fedora/Documents/Projects/Chess/obj/Debug/Chess.exe
+/home/stivik-Fedora/Documents/Projects/Chess/obj/Debug/Chess.pdb
+/home/stivik-Fedora/Documents/Projects/Chess/bin/Debug/Chess.exe.config
+/home/stivik-Fedora/Documents/Projects/Chess/bin/Debug/Chess.exe
+/home/stivik-Fedora/Documents/Projects/Chess/bin/Debug/Chess.pdb
+/home/stivik-Fedora/Documents/Projects/Chess/obj/Debug/Chess.csprojAssemblyReference.cache
+/home/stivik-Fedora/Documents/Projects/Chess/obj/Debug/Chess.Form1.resources
+/home/stivik-Fedora/Documents/Projects/Chess/obj/Debug/Chess.Properties.Resources.resources
+/home/stivik-Fedora/Documents/Projects/Chess/obj/Debug/Chess.csproj.GenerateResource.cache
+/home/stivik-Fedora/Documents/Projects/Chess/obj/Debug/Chess.csproj.CoreCompileInputs.cache

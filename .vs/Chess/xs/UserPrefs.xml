@@ -1,0 +1,28 @@
+﻿<Properties StartupConfiguration="{30E7343B-B14B-4C3F-9D21-5CC2D0D61BAB}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GameSession.cs">
+    <Files>
+      <File FileName="ProjectEnums.cs" Line="1" Column="1" />
+      <File FileName="Pies.cs" Line="1" Column="1" />
+      <File FileName="IMoveCommand.cs" Line="36" Column="10" />
+      <File FileName="GameSession.cs" Line="17" Column="31" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Chess" expanded="True">
+            <Node name="Chess" expanded="True">
+              <Node name="GameSession.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Chess PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

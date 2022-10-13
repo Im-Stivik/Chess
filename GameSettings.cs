@@ -16,5 +16,6 @@ namespace Chess
         public static Color DarkColor = Color.Green;
         public static Color OptionsColor = Color.Cyan;
         public static Color SelectedColor = Color.DimGray;
+        public static Color EatPiesOptionColor = Color.Gold;
     }
 }

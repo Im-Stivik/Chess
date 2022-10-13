@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Chess
@@ -7,12 +8,11 @@ namespace Chess
     {
         public class Pawn : Pies
         {
-            private bool moved = false;
-
-            public Pawn(int x, int y, int team) : base(x, y, team)
+            //constructor
+            public Pawn(int x, int y, ProjectEnums.Team team) : base(x, y, team)
             {
-                this.PieceType = ProjectEnums.PieceType.Pawn;
-                if (this._team == GameSession.WhiteTeam)
+                this.pieceType = ProjectEnums.PieceType.Pawn;
+                if (this.team == ProjectEnums.Team.WhiteTeam)
                 {
                     this.Image = Chess.Properties.Resources.PawnWhite;
                 }
@@ -22,44 +22,66 @@ namespace Chess
                 }
             }
 
-            public override void CreateOptions(object sender, EventArgs e)
+            public override void CreateOptions()
             {
-                if (this._team == ProjectEnums.OPPONENT)
+                if (this.team == ProjectEnums.Team.WhiteTeam)
                 {
                     EnemyOptions(this, EventArgs.Empty);
                     return;
                 }
-
-                Board.ClearOptions();
-                if (CheckMove(this.X, this.Y - 1))
+                List<MoveOption> optionsList = new List<MoveOption>();
+                if (CheckMove(this.point.GetX(), this.point.GetY() - 1))
                 {
-                    Board.AddMoveOption(this.X, this.Y - 1);
-                    if (!moved)
+                    optionsList.Add(new MoveOption(this,new Point(this.point.GetX(),this.point.GetY() - 1), false));
+                    if (!IsMoved)
                     {
-                        if (CheckMove(this.X, this.Y - 2))
+                        if (CheckMove(this.GetPoint().GetX(), this.point.GetY() - 2))
                         {
-                            Board.AddMoveOption(this.X, this.Y - 2);
+                            optionsList.Add(new MoveOption(this,this.point.GetX(),this.point.GetY() - 2, false));
                         }
                     }
                 }
-            }
 
+                if (Board.IsEnemy(this.point.GetX() + 1, this.GetPoint().GetY() - 1, this.GetTeam()))
+                {
+                    optionsList.Add(new MoveOption(this,this.point.GetX() + 1, this.GetPoint().GetY() - 1,true));
+                }
+                if(Board.IsEnemy(this.GetPoint().GetX() - 1, this.GetPoint().GetY() - 1, this.GetTeam()))
+                {
+                    optionsList.Add(new MoveOption(this,this.point.GetX() - 1, this.GetPoint().GetY() - 1,true));
+                }
+                this.moveOptions = optionsList.ToArray();
+            }
+            
+            //seperate moves for the enemy
             public void EnemyOptions(object sender, EventArgs e)
             {
-                Board.ClearOptions();
-                if (CheckMove(this.X, this.Y + 1))
+                List<MoveOption> optionsList = new List<MoveOption>();
+                if (CheckMove(this.point.GetX(), this.point.GetY() + 1))
                 {
-                    Board.AddMoveOption(this.X, this.Y + 1);
-                    if (!moved)
+                    optionsList.Add(new MoveOption(this,new Point(this.point.GetX(),this.point.GetY() + 1), false));
+                    if (!IsMoved)
                     {
-                        if (CheckMove(this.X, this.Y + 2))
+                        if (CheckMove(this.GetPoint().GetX(), this.point.GetY() + 2))
                         {
-                            Board.AddMoveOption(this.X, this.Y + 2);
+                            optionsList.Add(new MoveOption(this,this.point.GetX(),this.point.GetY() + 2, false));
                         }
                     }
                 }
+
+                if (Board.IsEnemy(this.point.GetX() + 1, this.GetPoint().GetY() + 1, this.GetTeam()))
+                {
+                    optionsList.Add(new MoveOption(this,this.point.GetX() + 1, this.GetPoint().GetY() + 1,true));
+                }
+                if(Board.IsEnemy(this.GetPoint().GetX() - 1, this.GetPoint().GetY() + 1, this.GetTeam()))
+                {
+                    optionsList.Add(new MoveOption(this,this.point.GetX() - 1, this.GetPoint().GetY() + 1,true));
+                }
+
+                this.moveOptions = optionsList.ToArray(); 
             }
 
+            //checks if you can move to the given point
             private static bool CheckMove(int x, int y)
             {
                 return Board.isInBoard(x, y) && Board.isCellEmpty(x, y);
@@ -68,10 +90,10 @@ namespace Chess
 
         public class Rook : Pies
         {
-            public Rook(int x, int y, int team) : base(x, y, team)
+            public Rook(int x, int y, ProjectEnums.Team team) : base(x, y, team)
             {
-                this.PieceType = ProjectEnums.PieceType.Rook;
-                if (this._team == GameSession.WhiteTeam)
+                this.pieceType = ProjectEnums.PieceType.Rook;
+                if (this.team == ProjectEnums.Team.WhiteTeam)
                 {
                     this.Image = Chess.Properties.Resources.RookWhite;
                 }
@@ -81,61 +103,61 @@ namespace Chess
                 }
             }
 
-            public override void CreateOptions(object sender, EventArgs e)
+            public override void CreateOptions()
             {
-                Board.ClearOptions();
-                int offset;
+                List<MoveOption> options = new List<MoveOption>();
+                int offset = 1;
                 //check up
-                offset = 1;
-                while (checkMove(this.X, this.Y - offset))
+                while (checkMove(this.GetPoint().GetX(), this.GetPoint().GetY() - offset))
                 {
-                    Board.AddMoveOption(this.X, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() - offset,false));
                     offset++;
                 }
 
-                if (Board.IsEnemy(this.X, this.Y - offset, this._team))
+                if (Board.IsEnemy(this.GetPoint().GetX(), this.GetPoint().GetY() - offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() - offset,true));
                 }
 
                 //check down
                 offset = 1;
-                while (checkMove(this.X, this.Y + offset))
+                while (checkMove(this.GetPoint().GetX(), this.GetPoint().GetY() + offset))
                 {
-                    Board.AddMoveOption(this.X, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() + offset,false));
                     offset++;
                 }
 
-                if (Board.IsEnemy(this.X, this.Y + offset, this._team))
+                if (Board.IsEnemy(this.GetPoint().GetX(), this.GetPoint().GetY() + offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() + offset,true));
                 }
 
                 //check left
                 offset = 1;
-                while (checkMove(this.X - offset, this.Y))
+                while (checkMove(this.GetPoint().GetX() - offset, this.GetPoint().GetY()))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY(),false));
                     offset++;
                 }
 
-                if (Board.IsEnemy(this.X - offset, this.Y, this._team))
+                if (Board.IsEnemy(this.GetPoint().GetX() - offset, this.GetPoint().GetY(), this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY(),true));
                 }
 
                 //check right
                 offset = 1;
-                while (checkMove(this.X + offset, this.Y))
+                while (checkMove(this.GetPoint().GetX() + offset, this.GetPoint().GetX()))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY(),false));
                     offset++;
                 }
 
-                if (Board.IsEnemy(this.X + offset, this.Y, this._team))
+                if (Board.IsEnemy(this.GetPoint().GetX() + offset, this.GetPoint().GetX(), this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY(),true));
                 }
+                this.moveOptions = options.ToArray();
             }
 
             private bool checkMove(int x, int y)
@@ -151,10 +173,10 @@ namespace Chess
 
         public class Knight : Pies
         {
-            public Knight(int x, int y, int team) : base(x, y, team)
+            public Knight(int x, int y, ProjectEnums.Team team) : base(x, y, team)
             {
-                this.PieceType = ProjectEnums.PieceType.Knight;
-                if (this._team == GameSession.WhiteTeam)
+                this.pieceType = ProjectEnums.PieceType.Knight;
+                if (this.team== ProjectEnums.Team.WhiteTeam)
                 {
                     this.Image = Chess.Properties.Resources.KnightWhite;
                 }
@@ -164,49 +186,50 @@ namespace Chess
                 }
             }
 
-            public override void CreateOptions(object sender, EventArgs e)
+            public override void CreateOptions()
             {
-                Board.ClearOptions();
-                if (checkMove(this.X + 1, this.Y + 2))
+                List<MoveOption> options = new List<MoveOption>();
+                if (checkMove(this.GetPoint().GetX() + 1, this.GetPoint().GetY() + 2))
                 {
-                    Board.AddMoveOption(this.X + 1, this.Y + 2);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + 1,this.GetPoint().GetY() + 2));
                 }
 
-                if (checkMove(this.X - 1, this.Y + 2))
+                if (checkMove(this.GetPoint().GetX() - 1, this.GetPoint().GetY() + 2))
                 {
-                    Board.AddMoveOption(this.X - 1, this.Y + 2);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - 1,this.GetPoint().GetY() + 2));
                 }
 
-                if (checkMove(this.X + 1, this.Y - 2))
+                if (checkMove(this.GetPoint().GetX() + 1, this.GetPoint().GetY() - 2))
                 {
-                    Board.AddMoveOption(this.X + 1, this.Y - 2);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + 1,this.GetPoint().GetY() - 2));
                 }
 
-                if (checkMove(this.X - 1, this.Y - 2))
+                if (checkMove(this.GetPoint().GetX() - 1, this.GetPoint().GetY() - 2))
                 {
-                    Board.AddMoveOption(this.X - 1, this.Y - 2);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - 1,this.GetPoint().GetY() - 2));
                 }
 
-                if (checkMove(this.X + 2, this.Y + 1))
+                if (checkMove(this.GetPoint().GetX() + 2, this.GetPoint().GetY() + 1))
                 {
-                    Board.AddMoveOption(this.X + 2, this.Y + 1);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + 2,this.GetPoint().GetY() + 1));
+                }
+                
+                if (checkMove(this.GetPoint().GetX() - 2, this.GetPoint().GetY() + 1))
+                {
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - 2,this.GetPoint().GetY() + 1));
                 }
 
-                if (checkMove(this.X - 2, this.Y + 1))
+                if (checkMove(this.GetPoint().GetX() + 2, this.GetPoint().GetY() - 1))
                 {
-                    Board.AddMoveOption(this.X - 2, this.Y + 1);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + 2,this.GetPoint().GetY() - 1));
                 }
 
-                if (checkMove(this.X + 2, this.Y - 1))
+                if (checkMove(this.GetPoint().GetX() - 2, this.GetPoint().GetY() - 1))
                 {
-                    Board.AddMoveOption(this.X + 2, this.Y - 1);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - 2,this.GetPoint().GetY() - 1));
                 }
-
-                if (checkMove(this.X - 2, this.Y - 1))
-                {
-                    Board.AddMoveOption(this.X - 2, this.Y - 1);
-                }
-            }
+                
+                this.moveOptions = options.ToArray(); }
 
             private bool checkMove(int x, int y)
             {
@@ -215,16 +238,16 @@ namespace Chess
                     return false;
                 }
 
-                return Board.isCellEmpty(x, y) || Board.IsEnemy(x, y, this._team);
+                return Board.isCellEmpty(x, y) || Board.IsEnemy(x, y, this.GetTeam());
             }
         }
 
         public class Bishop : Pies
         {
-            public Bishop(int x, int y, int team) : base(x, y, team)
+            public Bishop(int x, int y, ProjectEnums.Team team) : base(x, y, team)
             {
-                this.PieceType = ProjectEnums.PieceType.Bishop;
-                if (this._team == GameSession.WhiteTeam)
+                this.pieceType = ProjectEnums.PieceType.Bishop;
+                if (this.team == ProjectEnums.Team.WhiteTeam)
                 {
                     this.Image = Chess.Properties.Resources.BishopWhite;
                 }
@@ -234,61 +257,62 @@ namespace Chess
                 }
             }
 
-            public override void CreateOptions(object sender, EventArgs e)
+            public override void CreateOptions()
             {
-                Board.ClearOptions();
+                List<MoveOption> options = new List<MoveOption>();
                 int offset;
                 //check up left
                 offset = 1;
-                while (checkMove(this.X - offset, this.Y - offset))
+                while (checkMove(this.GetPoint().GetX() - offset, this.GetPoint().GetY() - offset))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY() - offset,false));
                     offset++;
                 }
 
-                if (Board.IsEnemy(this.X - offset, this.Y - offset, this._team))
+                if (Board.IsEnemy(this.GetPoint().GetX() - offset, this.GetPoint().GetY() - offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY() - offset,true));
                 }
 
                 //check up right
                 offset = 1;
-                while (checkMove(this.X + offset, this.Y - offset))
+                while (checkMove(this.GetPoint().GetX() + offset, this.GetPoint().GetY() - offset))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY() - offset,false));
                     offset++;
                 }
 
-                if (Board.IsEnemy(this.X + offset, this.Y - offset, this._team))
+                if (Board.IsEnemy(this.GetPoint().GetX() + offset, this.GetPoint().GetY() - offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY() - offset,true));
                 }
 
                 //check down left
                 offset = 1;
-                while (checkMove(this.X - offset, this.Y + offset))
+                while (checkMove(this.GetPoint().GetX() - offset, this.GetPoint().GetY() + offset))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY() + offset,false));
                     offset++;
                 }
-
-                if (Board.IsEnemy(this.X - offset, this.Y + offset, this._team))
+                
+                if (Board.IsEnemy(this.GetPoint().GetX() - offset, this.GetPoint().GetY() + offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY() + offset,true));
                 }
-
                 //check down right
                 offset = 1;
-                while (checkMove(this.X + offset, this.Y + offset))
+                while (checkMove(this.GetPoint().GetX() + offset, this.GetPoint().GetY() + offset))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY() + offset,false));
                     offset++;
                 }
-
-                if (Board.IsEnemy(this.X + offset, this.Y + offset, this._team))
+                
+                if (Board.IsEnemy(this.GetPoint().GetX() + offset, this.GetPoint().GetY() + offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY() + offset,true));
                 }
+                
+                this.moveOptions = options.ToArray();
             }
 
             private bool checkMove(int x, int y)
@@ -304,10 +328,10 @@ namespace Chess
 
         public class Queen : Pies
         {
-            public Queen(int x, int y, int team) : base(x, y, team)
+            public Queen(int x, int y, ProjectEnums.Team team) : base(x, y, team)
             {
-                this.PieceType = ProjectEnums.PieceType.Queen;
-                if (this._team == GameSession.WhiteTeam)
+                this.pieceType = ProjectEnums.PieceType.Queen;
+                if (this.team == ProjectEnums.Team.WhiteTeam)
                 {
                     this.Image = Chess.Properties.Resources.QueenWhite;
                 }
@@ -317,95 +341,114 @@ namespace Chess
                 }
             }
 
-            public override void CreateOptions(object sender, EventArgs e)
+            public override void CreateOptions()
             {
-                Board.ClearOptions();
+                List<MoveOption> options = new List<MoveOption>();
                 int offset;
                 //check up
                 offset = 1;
-                while (checkMove(this.X, this.Y - offset))
+                while (checkMove(this.GetPoint().GetX(), this.GetPoint().GetY() - offset))
                 {
-                    Board.AddMoveOption(this.X, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() - offset,false));
                     offset++;
                 }
-
-                if (Board.IsEnemy(this.X, this.Y - offset, this._team))
+                
+                if (Board.IsEnemy(this.GetPoint().GetX(), this.GetPoint().GetY() - offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() - offset,true));
                 }
 
                 //check down
                 offset = 1;
-                while (checkMove(this.X, this.Y + offset))
+                while (checkMove(this.GetPoint().GetX(), this.GetPoint().GetY() + offset))
                 {
-                    Board.AddMoveOption(this.X, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() + offset,false));
                     offset++;
                 }
-
-                if (Board.IsEnemy(this.X, this.Y + offset, this._team))
+                
+                if (Board.IsEnemy(this.GetPoint().GetX(), this.GetPoint().GetY() + offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() + offset,true));
                 }
 
                 //check left
                 offset = 1;
-                while (checkMove(this.X - offset, this.Y))
+                while (checkMove(this.GetPoint().GetX() - offset, this.GetPoint().GetY()))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY(),false));
                     offset++;
                 }
-
-                if (Board.IsEnemy(this.X - offset, this.Y, this._team))
+                
+                if (Board.IsEnemy(this.GetPoint().GetX() - offset, this.GetPoint().GetY(), this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY(),true));
                 }
 
                 //check right
                 offset = 1;
-                while (checkMove(this.X + offset, this.Y))
+                while (checkMove(this.GetPoint().GetX() + offset, this.GetPoint().GetY()))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY(),false));
                     offset++;
                 }
-
-                if (Board.IsEnemy(this.X + offset, this.Y, this._team))
+                
+                if (Board.IsEnemy(this.GetPoint().GetX() + offset, this.GetPoint().GetY(), this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY(),true));
                 }
 
                 //check up left
                 offset = 1;
-                while (checkMove(this.X - offset, this.Y - offset))
+                while (checkMove(this.GetPoint().GetX() - offset, this.GetPoint().GetY() - offset))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY() - offset,false));
                     offset++;
+                }
+                
+                if (Board.IsEnemy(this.GetPoint().GetX() - offset, this.GetPoint().GetY() - offset, this.GetTeam()))
+                {
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY() - offset,true));
                 }
 
-                if (Board.IsEnemy(this.X - offset, this.Y - offset, this._team))
-                {
-                    Board.AddMoveOption(this.X - offset, this.Y - offset);
-                }
                 //check up right
                 offset = 1;
-                while (checkMove(this.X + offset, this.Y - offset))
+                while (checkMove(this.GetPoint().GetX() + offset, this.GetPoint().GetY() - offset))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y - offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY() - offset,false));
                     offset++;
                 }
-                //check down left
-                offset = 1;
-                while (checkMove(this.X - offset, this.Y + offset))
+                
+                if (Board.IsEnemy(this.GetPoint().GetX() + offset, this.GetPoint().GetY() - offset, this.GetTeam()))
                 {
-                    Board.AddMoveOption(this.X - offset, this.Y + offset);
-                    offset++;
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY() - offset,true));
                 }
                 //check down right
                 offset = 1;
-                while (checkMove(this.X + offset, this.Y + offset))
+                while (checkMove(this.GetPoint().GetX() - offset, this.GetPoint().GetY() + offset))
                 {
-                    Board.AddMoveOption(this.X + offset, this.Y + offset);
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY() + offset,false));
                     offset++;
                 }
+                
+                if (Board.IsEnemy(this.GetPoint().GetX() - offset, this.GetPoint().GetY() + offset, this.GetTeam()))
+                {
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - offset,this.GetPoint().GetY() + offset,true));
+                }
+                
+                //check down left
+                offset = 1;
+                while (checkMove(this.GetPoint().GetX() + offset, this.GetPoint().GetY() + offset))
+                {
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY() + offset,false));
+                    offset++;
+                }
+                
+                if (Board.IsEnemy(this.GetPoint().GetX() + offset, this.GetPoint().GetY() + offset, this.GetTeam()))
+                {
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + offset,this.GetPoint().GetY() + offset,true));
+                }
+                
+                this.moveOptions = options.ToArray();
             }
 
             private bool checkMove(int x, int y)
@@ -422,10 +465,10 @@ namespace Chess
 
         public class King : Pies
         {
-            public King(int x, int y, int team) : base(x, y, team)
+            public King(int x, int y, ProjectEnums.Team team) : base(x, y, team)
             {
-                this.PieceType = ProjectEnums.PieceType.King;
-                if (this._team == GameSession.WhiteTeam)
+                this.pieceType = ProjectEnums.PieceType.King;
+                if (this.team == ProjectEnums.Team.WhiteTeam)
                 {
                     this.Image = Chess.Properties.Resources.KingWhite;
                 }
@@ -435,49 +478,36 @@ namespace Chess
                 }
             }
             
-            public override void CreateOptions(object sender, EventArgs e)
+            public override void CreateOptions()
             {
-                Board.ClearOptions();
+                List<MoveOption> options = new List<MoveOption>();
                 //check up
-                if (checkMove(this.X, this.Y - 1))
-                {
-                    Board.AddMoveOption(this.X, this.Y - 1);
-                }
+                if(checkMove(this.GetPoint().GetX(),this.GetPoint().GetY() -1))
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() - 1));
                 //check down
-                if (checkMove(this.X, this.Y + 1))
-                {
-                    Board.AddMoveOption(this.X, this.Y + 1);
-                }
+                if(checkMove(this.GetPoint().GetX(),this.GetPoint().GetY() + 1))
+                    options.Add(new MoveOption(this,this.GetPoint().GetX(),this.GetPoint().GetY() + 1));
                 //check left
-                if (checkMove(this.X - 1, this.Y))
-                {
-                    Board.AddMoveOption(this.X - 1, this.Y);
-                }
+                if(checkMove(this.GetPoint().GetX() - 1,this.GetPoint().GetY()))
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - 1,this.GetPoint().GetY()));
                 //check right
-                if (checkMove(this.X + 1, this.Y))
-                {
-                    Board.AddMoveOption(this.X + 1, this.Y);
-                }
+                if(checkMove(this.GetPoint().GetX() + 1,this.GetPoint().GetY()))
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + 1,this.GetPoint().GetY()));
                 //check up left
-                if (checkMove(this.X - 1, this.Y - 1))
-                {
-                    Board.AddMoveOption(this.X - 1, this.Y - 1);
-                }
+                if(checkMove(this.GetPoint().GetX() - 1,this.GetPoint().GetY() - 1))
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - 1,this.GetPoint().GetY() - 1));
                 //check up right
-                if (checkMove(this.X + 1, this.Y - 1))
-                {
-                    Board.AddMoveOption(this.X + 1, this.Y - 1);
-                }
+                if(checkMove(this.GetPoint().GetX() + 1,this.GetPoint().GetY() - 1))
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + 1,this.GetPoint().GetY() - 1));
                 //check down left
-                if (checkMove(this.X - 1, this.Y + 1))
-                {
-                    Board.AddMoveOption(this.X - 1, this.Y + 1);
-                }
+                if(checkMove(this.GetPoint().GetX() - 1,this.GetPoint().GetY() + 1))
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() - 1,this.GetPoint().GetY() + 1));
                 //check down right
-                if (checkMove(this.X + 1, this.Y + 1))
-                {
-                    Board.AddMoveOption(this.X + 1, this.Y + 1);
-                }
+                if(checkMove(this.GetPoint().GetX() + 1,this.GetPoint().GetY() + 1))
+                    options.Add(new MoveOption(this,this.GetPoint().GetX() + 1,this.GetPoint().GetY() + 1));
+
+                this.moveOptions = options.ToArray();
+                
             }
             
             private bool checkMove(int x, int y)
@@ -487,7 +517,7 @@ namespace Chess
                     return false;
                 }
 
-                return Board.isCellEmpty(x, y);
+                return Board.isCellEmpty(x, y) || Board.IsEnemy(x,y,this.GetTeam());
             }
         }
     }
