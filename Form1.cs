@@ -42,12 +42,12 @@ namespace Chess
         //if the user clicks the local game button
         private void LocalGameBtn_Click(object sender, EventArgs e)
         {
-            //hide the main menu
-            this.Hide();
             //create a new game
             GameForm game = new GameForm(ProjectEnums.GameType.Local);
             //show the game
             game.Show();
+            //closes this form but not the application
+            this.Hide();
         }
     }
 

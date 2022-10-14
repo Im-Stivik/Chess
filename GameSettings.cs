@@ -9,8 +9,8 @@ namespace Chess
         public static int PieceSize = 50;
         public static int BoardWidth = BoardSize * PieceSize;
         public static int BoardHeight = BoardSize * PieceSize;
-        public static int BoardMarginLeft = 50;
-        public static int BoardMarginTop = 50;
+        public static int BoardMarginLeft = 30;
+        public static int BoardMarginTop = 30;
         
         
         public static Color LightColor = Color.FromArgb(255, 255, 255);
