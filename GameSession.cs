@@ -38,16 +38,16 @@ namespace Chess
         public static void ChangeTurn()
         {
             currentTurn = currentTurn == ProjectEnums.Team.WhiteTeam ? ProjectEnums.Team.BlackTeam : ProjectEnums.Team.WhiteTeam;
+            Board.FilterMovesForTeam(currentTurn);
             if (Board.CheckForCheck(currentTurn))
             {
                 Console.WriteLine("Check!");
-                if (!Board.CheckForCheckMate(currentTurn)) //TODO: check why its not working as intended
+                if (Board.CheckForCheckMate(currentTurn))
                 {
                     Mate();
                     return;
                 }
             }
-            Board.FilterMovesForTeam(currentTurn);
         }
 
         public static void Mate()
