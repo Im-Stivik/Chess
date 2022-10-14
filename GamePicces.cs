@@ -24,7 +24,7 @@ namespace Chess
 
             public override void CreateOptions()
             {
-                if (this.team == ProjectEnums.Team.WhiteTeam)
+                if (this.team != GameSession.playerTeam)
                 {
                     EnemyOptions(this, EventArgs.Empty);
                     return;

@@ -26,42 +26,46 @@ namespace Chess
                     context.Controls.Add(cells[i, j]);
                 }
             }
-
+            
+            //saving some information for convenience
+            ProjectEnums.Team playerTeam = GameSession.playerTeam;
+            ProjectEnums.Team enemyTeam = ProjectEnums.GetOppositeTeam(playerTeam);
+            
             //create pawns
             Console.WriteLine("Creating pawns");
             for (int i = 0; i < 8; i++)
             {
-                Replace(cells[i, 1], new GamePicces.Pawn(i, 1, ProjectEnums.Team.WhiteTeam));
-                Replace(cells[i, 6], new GamePicces.Pawn(i, 6, ProjectEnums.Team.BlackTeam));
+                Replace(cells[i, 1], new GamePicces.Pawn(i, 1, enemyTeam));
+                Replace(cells[i, 6], new GamePicces.Pawn(i, 6, playerTeam));
             }
 
             //create rooks
             Console.WriteLine("Creating rooks");
-            Replace(cells[0, 0], new GamePicces.Rook(0, 0, ProjectEnums.Team.WhiteTeam));
-            Replace(cells[7, 0], new GamePicces.Rook(7, 0, ProjectEnums.Team.WhiteTeam));
-            Replace(cells[0, 7], new GamePicces.Rook(0, 7, ProjectEnums.Team.BlackTeam));
-            Replace(cells[7, 7], new GamePicces.Rook(7, 7, ProjectEnums.Team.BlackTeam));
+            Replace(cells[0, 0], new GamePicces.Rook(0, 0, enemyTeam));
+            Replace(cells[7, 0], new GamePicces.Rook(7, 0, enemyTeam));
+            Replace(cells[0, 7], new GamePicces.Rook(0, 7, playerTeam));
+            Replace(cells[7, 7], new GamePicces.Rook(7, 7, playerTeam));
             //create knights
             Console.WriteLine("Creating knights");
-            Replace(cells[1, 0], new GamePicces.Knight(1, 0, ProjectEnums.Team.WhiteTeam));
-            Replace(cells[6, 0], new GamePicces.Knight(6, 0, ProjectEnums.Team.WhiteTeam));
-            Replace(cells[1, 7], new GamePicces.Knight(1, 7, ProjectEnums.Team.BlackTeam));
-            Replace(cells[6, 7], new GamePicces.Knight(6, 7, ProjectEnums.Team.BlackTeam));
+            Replace(cells[1, 0], new GamePicces.Knight(1, 0, enemyTeam));
+            Replace(cells[6, 0], new GamePicces.Knight(6, 0, enemyTeam));
+            Replace(cells[1, 7], new GamePicces.Knight(1, 7, playerTeam));
+            Replace(cells[6, 7], new GamePicces.Knight(6, 7, playerTeam));
             //create bishops
             Console.WriteLine("Creating bishops");
-            Replace(cells[2, 0], new GamePicces.Bishop(2, 0, ProjectEnums.Team.WhiteTeam));
-            Replace(cells[5, 0], new GamePicces.Bishop(5, 0, ProjectEnums.Team.WhiteTeam));
-            Replace(cells[2, 7], new GamePicces.Bishop(2, 7, ProjectEnums.Team.BlackTeam));
-            Replace(cells[5, 7], new GamePicces.Bishop(5, 7, ProjectEnums.Team.BlackTeam));
+            Replace(cells[2, 0], new GamePicces.Bishop(2, 0, enemyTeam));
+            Replace(cells[5, 0], new GamePicces.Bishop(5, 0, enemyTeam));
+            Replace(cells[2, 7], new GamePicces.Bishop(2, 7, playerTeam));
+            Replace(cells[5, 7], new GamePicces.Bishop(5, 7, playerTeam));
             //create queens
             Console.WriteLine("Creating queens");
-            Replace(cells[4, 0], new GamePicces.Queen(4, 0, ProjectEnums.Team.WhiteTeam));
-            Replace(cells[4, 7], new GamePicces.Queen(4, 7, ProjectEnums.Team.BlackTeam));
+            Replace(cells[4, 0], new GamePicces.Queen(4, 0, enemyTeam));
+            Replace(cells[4, 7], new GamePicces.Queen(4, 7, playerTeam));
             
             //create kings
             Console.WriteLine("Creating kings");
-            Replace(cells[3, 0], new GamePicces.King(3, 0, ProjectEnums.Team.WhiteTeam));
-            Replace(cells[3, 7], new GamePicces.King(3, 7, ProjectEnums.Team.BlackTeam));
+            Replace(cells[3, 0], new GamePicces.King(3, 0, enemyTeam));
+            Replace(cells[3, 7], new GamePicces.King(3, 7, playerTeam));
             
             UpdateMoves();
         }
