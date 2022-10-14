@@ -21,7 +21,6 @@ namespace Chess
         private void Form1_Load(object sender, EventArgs e)
         {
             PutUIElementsInPlace();
-            Board.Init(this);
         }
 
 
@@ -30,7 +29,7 @@ namespace Chess
             //Set the buttons to the right place
             LocalGameBtn.Location = new System.Drawing.Point(this.Size.Width / 2 - LocalGameBtn.Size.Width / 2, this.Size.Height / 5);
             LocalNetworkBtn.Location = new System.Drawing.Point(this.Size.Width / 2 - LocalNetworkBtn.Size.Width / 2, this.Size.Height / 5 * 2);
-            OnlineBtn.Location = new System.Drawing.Point(this.Size.Width / 2 - OnlineBtn.Size.Width / 2, this.Size.Height / 5 * 3);
+            SettingsBtn.Location = new System.Drawing.Point(this.Size.Width / 2 - SettingsBtn.Size.Width / 2, this.Size.Height / 5 * 3);
         }
         
         //on resize
@@ -38,6 +37,17 @@ namespace Chess
         {
             base.OnResize(e);
             PutUIElementsInPlace();
+        }
+        
+        //if the user clicks the local game button
+        private void LocalGameBtn_Click(object sender, EventArgs e)
+        {
+            //hide the main menu
+            this.Hide();
+            //create a new game
+            GameForm game = new GameForm(ProjectEnums.GameType.Local);
+            //show the game
+            game.Show();
         }
     }
 

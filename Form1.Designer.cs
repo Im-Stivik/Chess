@@ -30,7 +30,7 @@
         {
             this.LocalGameBtn = new System.Windows.Forms.Button();
             this.LocalNetworkBtn = new System.Windows.Forms.Button();
-            this.OnlineBtn = new System.Windows.Forms.Button();
+            this.SettingsBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // LocalGameBtn
@@ -41,6 +41,7 @@
             this.LocalGameBtn.TabIndex = 0;
             this.LocalGameBtn.Text = "Local Game";
             this.LocalGameBtn.UseVisualStyleBackColor = true;
+            this.LocalGameBtn.Click += new System.EventHandler(this.LocalGameBtn_Click);
             // 
             // LocalNetworkBtn
             // 
@@ -53,19 +54,19 @@
             // 
             // OnlineBtn
             // 
-            this.OnlineBtn.Location = new System.Drawing.Point(361, 280);
-            this.OnlineBtn.Name = "OnlineBtn";
-            this.OnlineBtn.Size = new System.Drawing.Size(87, 23);
-            this.OnlineBtn.TabIndex = 2;
-            this.OnlineBtn.Text = "OnlineGame";
-            this.OnlineBtn.UseVisualStyleBackColor = true;
+            this.SettingsBtn.Location = new System.Drawing.Point(361, 280);
+            this.SettingsBtn.Name = "SettingsBtn";
+            this.SettingsBtn.Size = new System.Drawing.Size(87, 23);
+            this.SettingsBtn.TabIndex = 2;
+            this.SettingsBtn.Text = "Settings";
+            this.SettingsBtn.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.OnlineBtn);
+            this.Controls.Add(this.SettingsBtn);
             this.Controls.Add(this.LocalNetworkBtn);
             this.Controls.Add(this.LocalGameBtn);
             this.Name = "Form1";
@@ -79,7 +80,7 @@
 
         private System.Windows.Forms.Button LocalGameBtn;
         private System.Windows.Forms.Button LocalNetworkBtn;
-        private System.Windows.Forms.Button OnlineBtn;
+        private System.Windows.Forms.Button SettingsBtn;
     }
 }
 

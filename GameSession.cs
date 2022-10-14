@@ -15,6 +15,14 @@ namespace Chess
         public static ProjectEnums.Team currentTurn = ProjectEnums.Team.WhiteTeam;
         public static ProjectEnums.GameType gameType = ProjectEnums.GameType.Local;
 
+        public static void NewGame(ProjectEnums.GameType gameType)
+        {
+            GameSession.gameType = gameType;
+            GameSession.currentTurn = ProjectEnums.Team.WhiteTeam;
+            GameSession.movesDone.Clear();
+            GameSession.playerTeam = ProjectEnums.Team.WhiteTeam;
+        }
+        
         public static void ExecuteCommand(ICommand command)
         {
             movesDone.Push(command);
