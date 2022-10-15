@@ -4,7 +4,7 @@ using System.Windows.Forms.VisualStyles;
 
 namespace Chess
 {
-    public class Cell : Label
+    public class Cell : PictureBox
     {
         protected Point point;
         protected ProjectEnums.PieceType pieceType;
@@ -26,7 +26,7 @@ namespace Chess
             this.Location = point.GetLocation();
             this.BackColor = GetBackColor(this.point);
             this.pieceType = ProjectEnums.PieceType.None;
-
+            this.SizeMode = PictureBoxSizeMode.StretchImage;
         }
         
         //constructor with point
