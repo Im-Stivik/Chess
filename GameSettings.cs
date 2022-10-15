@@ -7,8 +7,6 @@ namespace Chess
     {
         public static int BoardSize = 8;
         public static int PieceSize = 50;
-        public static int BoardWidth = BoardSize * PieceSize;
-        public static int BoardHeight = BoardSize * PieceSize;
         public static int BoardMarginLeft = 30;
         public static int BoardMarginTop = 30;
         
@@ -53,19 +51,22 @@ namespace Chess
                         BoardMarginTop = int.Parse(value);
                         break;
                     case "LightColor":
-                        LightColor = Color.FromName(value);
+                        LightColor = TextToColor(value);
+                        Console.WriteLine("LightColor: " + LightColor);
                         break;
                     case "DarkColor":
-                        DarkColor = Color.FromName(value);
+                        DarkColor = TextToColor(value);
+                        Console.WriteLine("DarkColor: " + DarkColor);
                         break;
                     case "OptionsColor":
-                        OptionsColor = Color.FromName(value);
+                        OptionsColor = TextToColor(value);
+                        Console.WriteLine("OptionsColor: " + OptionsColor);
                         break;
                     case "SelectedColor":
-                        SelectedColor = Color.FromName(value);
+                        SelectedColor = TextToColor(value);
                         break;
                     case "EatPiesOptionColor":
-                        EatPiesOptionColor = Color.FromName(value);
+                        EatPiesOptionColor = TextToColor(value);;
                         break;
                     default:
                         return "Unknown setting";
@@ -77,6 +78,25 @@ namespace Chess
             }
 
             return null;
+        }
+        
+        private static Color TextToColor(string text)
+        {
+            //get the name from inside the brackets
+            string name = text.Substring(text.IndexOf("[") + 1, text.IndexOf("]") - text.IndexOf("[") - 1);
+            //if there are commas, it's not a named color
+            if (name.Contains(","))
+            {
+                //get the RGB values
+                string[] rgb = name.Split(',');
+                //return the color
+                return Color.FromArgb(int.Parse(rgb[0]), int.Parse(rgb[1]), int.Parse(rgb[2]));
+            }
+            else
+            {
+                //return the named color
+                return Color.FromName(name);
+            }
         }
     }
 }

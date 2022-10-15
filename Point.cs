@@ -30,8 +30,8 @@ namespace Chess
         //returns the location in the screen
         public System.Drawing.Point GetLocation()
         {
-            return new System.Drawing.Point(x * 50 + GameSettings.BoardMarginLeft,
-                y * 50 + GameSettings.BoardMarginTop);
+            return new System.Drawing.Point(x * GameSettings.PieceSize + GameSettings.BoardMarginLeft,
+                y * GameSettings.PieceSize + GameSettings.BoardMarginTop);
         }
 
         public override string ToString()

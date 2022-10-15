@@ -54,6 +54,7 @@
     <Compile Include="ChessBoardForm.Designer.cs">
       <DependentUpon>ChessBoardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileMennager.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

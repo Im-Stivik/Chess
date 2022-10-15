@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -21,6 +22,11 @@ namespace Chess
         private void Form1_Load(object sender, EventArgs e)
         {
             PutUIElementsInPlace();
+            Exception readingException = FileMennager.LoadSettings();
+            if(readingException != null)
+            {
+                MessageBox.Show(readingException.Message);
+            }
         }
 
 
