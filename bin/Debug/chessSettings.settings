@@ -1,5 +1,5 @@
 BoardSize: 8
-PieceSize: 80
+PieceSize: 50
 BoardMarginLeft: 30
 BoardMarginTop: 30
 LightColor: Color [A=255, R=255, G=255, B=255]

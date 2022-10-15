@@ -32,6 +32,10 @@ namespace Chess
         {
             try
             {
+                if(!File.Exists(settingsPath))
+                {
+                    return new FileNotFoundException("Settings file not found");
+                }
                 using (StreamReader sr = new StreamReader(settingsPath))
                 {
                     string line;

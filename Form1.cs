@@ -21,12 +21,8 @@ namespace Chess
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            LoadSettings();
             PutUIElementsInPlace();
-            Exception readingException = FileMennager.LoadSettings();
-            if(readingException != null)
-            {
-                MessageBox.Show(readingException.Message);
-            }
         }
 
 
@@ -54,6 +50,21 @@ namespace Chess
             game.Show();
             //closes this form but not the application
             this.Hide();
+        }
+
+        private void LoadSettings()
+        {
+            Exception readingException = FileMennager.LoadSettings();
+            if(readingException != null)
+            {
+                if (readingException.GetType() == typeof(FileNotFoundException))
+                {
+                    Console.WriteLine("Settings file not found, creating new one");
+                    FileMennager.SaveSettings();
+                    return;
+                }
+                MessageBox.Show(readingException.Message);
+            }
         }
     }
 

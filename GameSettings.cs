@@ -5,8 +5,9 @@ namespace Chess
 {
     public class GameSettings
     {
-        public static int BoardSize = 8;
+        public const int BoardSize = 8;
         public static int PieceSize = 50;
+        public static int BoardWidth {get {return BoardSize * PieceSize;} set {PieceSize = value / BoardSize;}}
         public static int BoardMarginLeft = 30;
         public static int BoardMarginTop = 30;
         
@@ -38,9 +39,6 @@ namespace Chess
             {
                 switch (name)
                 {
-                    case "BoardSize":
-                        BoardSize = int.Parse(value);
-                        break;
                     case "PieceSize":
                         PieceSize = int.Parse(value);
                         break;
