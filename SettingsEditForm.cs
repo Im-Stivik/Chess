@@ -25,7 +25,7 @@ namespace Chess
         private void PickColorBtn_Click(object sender, EventArgs e)
         {
             ColorDialog colorDialog = new ColorDialog();
-            colorDialog.ShowDialog();
+            if(colorDialog.ShowDialog() != DialogResult.OK) return;
             Color color = colorDialog.Color;
             Control control = (Control)sender;
             control.BackColor = color;
