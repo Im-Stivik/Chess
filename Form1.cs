@@ -66,6 +66,13 @@ namespace Chess
                 MessageBox.Show(readingException.Message);
             }
         }
+        
+        private void SettingsBtn_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Settings button clicked");
+            SettingsEditForm settings = new SettingsEditForm();
+            settings.Show();
+        }
     }
 
 

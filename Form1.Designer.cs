@@ -52,7 +52,7 @@
             this.LocalNetworkBtn.Text = "Local Network";
             this.LocalNetworkBtn.UseVisualStyleBackColor = true;
             // 
-            // OnlineBtn
+            // SettingsBtn
             // 
             this.SettingsBtn.Location = new System.Drawing.Point(361, 280);
             this.SettingsBtn.Name = "SettingsBtn";
@@ -60,6 +60,7 @@
             this.SettingsBtn.TabIndex = 2;
             this.SettingsBtn.Text = "Settings";
             this.SettingsBtn.UseVisualStyleBackColor = true;
+            this.SettingsBtn.Click += new System.EventHandler(this.SettingsBtn_Click);
             // 
             // Form1
             // 

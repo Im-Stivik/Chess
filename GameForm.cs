@@ -16,7 +16,6 @@ namespace Chess
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            //TODO: save game
             Application.Exit();
         }
     }

@@ -1,9 +1,9 @@
 BoardSize: 8
-PieceSize: 50
-BoardMarginLeft: 30
-BoardMarginTop: 30
+PieceSize: 25
+BoardMarginLeft: 0
+BoardMarginTop: 0
 LightColor: Color [A=255, R=255, G=255, B=255]
-DarkColor: Color [Green]
+DarkColor: Color [Fuchsia]
 OptionsColor: Color [Cyan]
 SelectedColor: Color [DimGray]
 EatPiesOptionColor: Color [Gold]

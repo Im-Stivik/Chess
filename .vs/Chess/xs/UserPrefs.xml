@@ -1,17 +1,17 @@
 ﻿<Properties StartupConfiguration="{30E7343B-B14B-4C3F-9D21-5CC2D0D61BAB}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="GameSession.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Form1.cs">
     <Files>
       <File FileName="ProjectEnums.cs" Line="1" Column="1" />
       <File FileName="Pies.cs" Line="1" Column="1" />
-      <File FileName="IMoveCommand.cs" Line="36" Column="10" />
-      <File FileName="GameSession.cs" Line="17" Column="31" />
+      <File FileName="GameSession.cs" Line="17" Column="1" />
+      <File FileName="Form1.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Chess" expanded="True">
             <Node name="Chess" expanded="True">
-              <Node name="GameSession.cs" selected="True" />
+              <Node name="Form1.cs" expanded="True" selected="True" />
             </Node>
           </Node>
         </State>

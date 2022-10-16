@@ -17,6 +17,17 @@ namespace Chess
         public static Color OptionsColor = Color.Cyan;
         public static Color SelectedColor = Color.DimGray;
         public static Color EatPiesOptionColor = Color.Gold;
+        
+        public static int ForwardButtonMarginLeft = 30; //TODO: add to settings
+        public static int ForwardButtonMarginTop = 30; //TODO: add to settings
+        public static int ForwardButtonWidth = 50; //TODO: add to settings
+        public static int ForwardButtonHeight = 50; //TODO: add to settings
+        
+        public static int BackButtonMarginLeft = 30; //TODO: add to settings
+        public static int BackButtonMarginTop = 30; //TODO: add to settings
+        public static int BackButtonWidth = 50; //TODO: add to settings
+        public static int BackButtonHeight = 50; //TODO: add to settings
+        
 
         public static string GetSettingsText()
         {
