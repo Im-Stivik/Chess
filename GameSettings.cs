@@ -8,6 +8,7 @@ namespace Chess
         public const int BoardSize = 8;
         public static int PieceSize = 50;
         public static int BoardWidth {get {return BoardSize * PieceSize;} set {PieceSize = value / BoardSize;}}
+        public static int BoardHeight {get {return BoardSize * PieceSize;} set {PieceSize = value / BoardSize;}}
         public static int BoardMarginLeft = 30;
         public static int BoardMarginTop = 30;
         
@@ -18,21 +19,36 @@ namespace Chess
         public static Color SelectedColor = Color.DimGray;
         public static Color EatPiesOptionColor = Color.Gold;
         
-        public static int ForwardButtonMarginLeft = 30; //TODO: add to settings
-        public static int ForwardButtonMarginTop = 30; //TODO: add to settings
-        public static int ForwardButtonWidth = 50; //TODO: add to settings
-        public static int ForwardButtonHeight = 50; //TODO: add to settings
-        
-        public static int BackButtonMarginLeft = 30; //TODO: add to settings
-        public static int BackButtonMarginTop = 30; //TODO: add to settings
-        public static int BackButtonWidth = 50; //TODO: add to settings
-        public static int BackButtonHeight = 50; //TODO: add to settings
-        
+        public static int ForwardButtonMarginLeft = 30;
+        public static int ForwardButtonMarginTop = 30;
+        public static int ForwardButtonWidth = 50;
+        public static int ForwardButtonHeight = 50;
+        public static int ForwardButtonX { get { return BoardMarginLeft + BoardWidth + ForwardButtonMarginLeft; } }
+        public static int ForwardButtonY { get{ return ForwardButtonMarginTop; }}
 
+        public static int BackButtonMarginLeft = 30;
+        public static int BackButtonMarginTop = 30;
+        public static int BackButtonWidth = 50;
+        public static int BackButtonHeight = 50;
+        public static int BackButtonX { get { return BoardMarginLeft + BoardWidth + BackButtonMarginLeft; } }
+        public static int BackButtonY {get {return BackButtonMarginTop + ForwardButtonHeight + ForwardButtonMarginTop;}}
+
+        public static Size GetWindowSize()
+        {
+            int width = BackButtonX + BackButtonWidth;
+            if(width < ForwardButtonX + ForwardButtonWidth)
+                width = ForwardButtonX + ForwardButtonWidth;
+            int height = BoardHeight + BoardMarginTop;
+            if(height < ForwardButtonY + ForwardButtonHeight)
+                height = ForwardButtonY + ForwardButtonHeight;
+            if(height < BackButtonY + BackButtonHeight)
+                height = BackButtonY + BackButtonHeight;
+            return new Size(width + PieceSize, height +PieceSize);
+        }
+        
         public static string GetSettingsText()
         {
             string result = "";
-            result += "BoardSize: " + BoardSize + "\n";
             result += "PieceSize: " + PieceSize + "\n";
             result += "BoardMarginLeft: " + BoardMarginLeft + "\n";
             result += "BoardMarginTop: " + BoardMarginTop + "\n";
@@ -41,6 +57,14 @@ namespace Chess
             result += "OptionsColor: " + OptionsColor + "\n";
             result += "SelectedColor: " + SelectedColor + "\n";
             result += "EatPiesOptionColor: " + EatPiesOptionColor + "\n";
+            result += "ForwardButtonMarginLeft: " + ForwardButtonMarginLeft + "\n";
+            result += "ForwardButtonMarginTop: " + ForwardButtonMarginTop + "\n";
+            result += "ForwardButtonWidth: " + ForwardButtonWidth + "\n";
+            result += "ForwardButtonHeight: " + ForwardButtonHeight + "\n";
+            result += "BackButtonMarginLeft: " + BackButtonMarginLeft + "\n";
+            result += "BackButtonMarginTop: " + BackButtonMarginTop + "\n";
+            result += "BackButtonWidth: " + BackButtonWidth + "\n";
+            result += "BackButtonHeight: " + BackButtonHeight + "\n";
             return result;
         }
 
@@ -76,6 +100,30 @@ namespace Chess
                         break;
                     case "EatPiesOptionColor":
                         EatPiesOptionColor = TextToColor(value);;
+                        break;
+                    case "ForwardButtonMarginLeft":
+                        ForwardButtonMarginLeft = int.Parse(value);
+                        break;
+                    case "ForwardButtonMarginTop":
+                        ForwardButtonMarginTop = int.Parse(value);
+                        break;
+                    case "ForwardButtonWidth":
+                        ForwardButtonWidth = int.Parse(value);
+                        break;
+                    case "ForwardButtonHeight":
+                        ForwardButtonHeight = int.Parse(value);
+                        break;
+                    case "BackButtonMarginLeft":
+                        BackButtonMarginLeft = int.Parse(value);
+                        break;
+                    case "BackButtonMarginTop":
+                        BackButtonMarginTop = int.Parse(value);
+                        break;
+                    case "BackButtonWidth":
+                        BackButtonWidth = int.Parse(value);
+                        break;
+                    case "BackButtonHeight":
+                        BackButtonHeight = int.Parse(value);
                         break;
                     default:
                         return "Unknown setting";

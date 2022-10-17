@@ -5,28 +5,14 @@ namespace Chess
 {
     public class FileMennager
     {
-        private static string path = "./"; //TODO: change to @"C:\Users\Public\Documents\Chess\"; when done
-        //TODO: check if the path %documents%\Chess is valid
+        private static string path = "./";
         private static string settingsFile = "chessSettings.settings";
         private static string settingsPath {get {return path + settingsFile;}}
         
         
         public static bool SaveSettings()
         {
-            string settings = GameSettings.GetSettingsText();
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(settingsPath))
-                {
-                    sw.WriteLine(settings.ToString());
-                }
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
+            return SaveSettings(path + settingsFile);
         }
 
         public static bool SaveSettings(string path)

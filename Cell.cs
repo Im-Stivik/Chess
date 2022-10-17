@@ -83,11 +83,15 @@ namespace Chess
             return pieceType +" " + this.point.ToString();
         }
 
-        public virtual void ClickedSelected(object sender, EventArgs e)
+        public void ClickedSelected(object sender, EventArgs e)
         {
             if (!canPlayerMove()) return;
             if (this.selectionState != ProjectEnums.SelectionState.SelectedByMove) return;
-            ICommand command = new MoveCommand(this.GetPoint().GetX(),this.GetPoint().GetY(),this.owner);
+            ICommand command;
+            if(this.pieceType == ProjectEnums.PieceType.None)
+                command = new MoveCommand(this.GetPoint().GetX(),this.GetPoint().GetY(),this.owner);
+            else
+                command = new EatCommand(this.owner,(Pies)this);
             GameSession.ExecuteCommand(command);
         }
         

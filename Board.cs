@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Management.Instrumentation;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
@@ -68,6 +69,15 @@ namespace Chess
             Replace(cells[3, 7], new GamePicces.King(3, 7, playerTeam));
             
             UpdateMoves();
+            
+            //create the buttons
+            Console.WriteLine("Creating buttons");
+            Buttons.CreateBackButton(context);
+            Buttons.CreateForwardButton(context);
+            
+            //make the window match the board'
+            Console.WriteLine("Resizing window");
+            context.Size = GameSettings.GetWindowSize();
         }
 
 
@@ -259,6 +269,40 @@ namespace Chess
                 }
             }
             return true;
+        }
+
+        public class Buttons
+        {
+            public static void CreateBackButton(Form context)
+            {
+                Button undo = new Button();
+                undo.Text = "Back";
+                undo.Location = new System.Drawing.Point(GameSettings.BackButtonX, GameSettings.BackButtonY);
+                undo.Size = new Size(GameSettings.BackButtonWidth, GameSettings.BackButtonHeight);
+                undo.Click += new EventHandler(Undo);
+                context.Controls.Add(undo);
+            }
+            
+            public static void CreateForwardButton(Form context)
+            {
+                Button redo = new Button();
+                redo.Text = "Forward";
+                redo.Location = new System.Drawing.Point(GameSettings.ForwardButtonX, GameSettings.ForwardButtonY);
+                redo.Size = new Size(GameSettings.ForwardButtonWidth, GameSettings.ForwardButtonHeight);
+                redo.Click += new EventHandler(Redo);
+                context.Controls.Add(redo);
+            }
+            
+            private static void Undo(object sender, EventArgs e)
+            {
+                GameSession.Undo();
+            }
+            
+            private static void Redo(object sender, EventArgs e)
+            {
+                GameSession.Redo();
+            }
+            
         }
     }
 }

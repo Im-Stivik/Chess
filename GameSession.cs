@@ -4,16 +4,21 @@ using System.Collections.Generic;
 using System.Management.Instrumentation;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
+using System.Windows.Forms;
 
 namespace Chess
 {
     public class GameSession
     {
         public static ProjectEnums.Team playerTeam = ProjectEnums.Team.WhiteTeam;
-        public static Stack<ICommand> movesDone = new Stack<ICommand>();
+        private static Stack<ICommand> movesDone = new Stack<ICommand>();
+        private static Stack<ICommand> movesUndone = new Stack<ICommand>();
         
         public static ProjectEnums.Team currentTurn = ProjectEnums.Team.WhiteTeam;
         public static ProjectEnums.GameType gameType = ProjectEnums.GameType.Local;
+        
+        public static bool IsBoardLatest { get { return movesUndone.Count == 0; } }
+        public static bool IsBoardOldest { get { return movesDone.Count == 0; } }
 
         public static void NewGame(ProjectEnums.GameType gameType)
         {
@@ -31,13 +36,35 @@ namespace Chess
             Board.UpdateMoves();
             ChangeTurn();
         }
-
-        public static void CancleLastCommand()
+        
+        public static void Undo()
         {
-            ICommand command = movesDone.Pop();
-            command.Cancle();
+            if (movesDone.Count > 0)
+            {
+                ICommand command = movesDone.Pop();
+                command.Cancle();
+                movesUndone.Push(command);
+            }
         }
         
+        public static void Redo()
+        {
+            if (movesUndone.Count > 0)
+            {
+                ICommand command = movesUndone.Pop();
+                command.Execute();
+                movesDone.Push(command);
+            }
+        }
+        
+        public static void RedoAll()
+        {
+            while (movesUndone.Count > 0)
+            {
+                Redo();
+            }
+        }
+
         public static bool IsPlayerTurn()
         {
             return currentTurn == playerTeam;
@@ -60,8 +87,7 @@ namespace Chess
 
         public static void Mate()
         {
-            //TODO: implement mate
-            Console.WriteLine("Mate!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            MessageBox.Show("Checkmate!\n" + (currentTurn == ProjectEnums.Team.WhiteTeam ? "Black" : "White") + " wins!");
         }
     }
 }

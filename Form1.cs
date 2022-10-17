@@ -22,25 +22,8 @@ namespace Chess
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadSettings();
-            PutUIElementsInPlace();
         }
 
-
-        public void PutUIElementsInPlace()
-        {
-            //Set the buttons to the right place
-            LocalGameBtn.Location = new System.Drawing.Point(this.Size.Width / 2 - LocalGameBtn.Size.Width / 2, this.Size.Height / 5);
-            LocalNetworkBtn.Location = new System.Drawing.Point(this.Size.Width / 2 - LocalNetworkBtn.Size.Width / 2, this.Size.Height / 5 * 2);
-            SettingsBtn.Location = new System.Drawing.Point(this.Size.Width / 2 - SettingsBtn.Size.Width / 2, this.Size.Height / 5 * 3);
-        }
-        
-        //on resize
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            PutUIElementsInPlace();
-        }
-        
         //if the user clicks the local game button
         private void LocalGameBtn_Click(object sender, EventArgs e)
         {

@@ -29,7 +29,7 @@ namespace Chess
         public void Move(int x, int y)
         {
             this.point.SetX(x);
-            this.point.SetY(y);;
+            this.point.SetY(y);
             this.Location = this.point.GetLocation();
             this.BackColor = Cell.GetBackColor(this.point);
             if (this.GetType() == ProjectEnums.PieceType.Pawn && y == 0)
@@ -76,6 +76,7 @@ namespace Chess
         //will call the right click method when the cell is clicked
         public void OnClick(object sender, EventArgs e)
         {
+            if (!GameSession.IsBoardLatest) return;
             if (selectionState == ProjectEnums.SelectionState.SelectedByMove) return;
             Board.ClearOptions();
             if(this.selectionState == ProjectEnums.SelectionState.NotSelected)
