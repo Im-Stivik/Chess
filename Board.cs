@@ -60,13 +60,13 @@ namespace Chess
             Replace(cells[5, 7], new GamePicces.Bishop(5, 7, playerTeam));
             //create queens
             Console.WriteLine("Creating queens");
-            Replace(cells[4, 0], new GamePicces.Queen(4, 0, enemyTeam));
-            Replace(cells[4, 7], new GamePicces.Queen(4, 7, playerTeam));
+            Replace(cells[3, 0], new GamePicces.Queen(3, 0, enemyTeam));
+            Replace(cells[3, 7], new GamePicces.Queen(3, 7, playerTeam));
             
             //create kings
             Console.WriteLine("Creating kings");
-            Replace(cells[3, 0], new GamePicces.King(3, 0, enemyTeam));
-            Replace(cells[3, 7], new GamePicces.King(3, 7, playerTeam));
+            Replace(cells[4, 0], new GamePicces.King(4, 0, enemyTeam));
+            Replace(cells[4, 7], new GamePicces.King(4, 7, playerTeam));
             
             UpdateMoves();
             
